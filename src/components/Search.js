@@ -1,6 +1,15 @@
-import React from "react";
-import SearchButton from "./SearchButton.jsx";
-const Search = () => {
+import React, { useState } from "react";
+import SearchButton from "./SearchButton";
+const Search = props => {
+  const [searchInput, setSearchInput] = useState("");
+  function handleSearchInput(event) {
+    const { value } = event.target;
+    setSearchInput(value);
+  }
+  function handleSubmit(event) {
+    event.preventDefault();
+    props.search(searchInput);
+  }
   return (
     <div className="search">
       <div className="page-header">
@@ -8,16 +17,18 @@ const Search = () => {
       </div>
       <div className="row search-wrapper">
         <div className="col">
-          <form className="form-group search-box">
+          <form onSubmit={handleSubmit} className="form-group search-box">
             <label htmlFor="customerName">Customer name</label>
             <div className="search-row">
               <input
                 type="text"
+                value={searchInput}
+                onChange={handleSearchInput}
                 id="customerName"
                 className="form-control"
                 placeholder="Customer name"
               />
-              <SearchButton />
+              <SearchButton buttonText="Search" />
             </div>
           </form>
         </div>
@@ -25,5 +36,4 @@ const Search = () => {
     </div>
   );
 };
-
 export default Search;
